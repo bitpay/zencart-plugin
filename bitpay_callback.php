@@ -21,7 +21,7 @@ else {
 	{
 		case 'confirmed':		
 		case 'complete':
-			$db->Execute("update ". TABLE_ORDERS. " set orders_status = " . MODULE_PAYMENT_BITPAY_PAID_STATUS_ID . " where orders_id = ". $order_id);			
+			$db->Execute("update ". TABLE_ORDERS. " set orders_status = " . MODULE_PAYMENT_BITPAY_PAID_STATUS_ID . " where orders_id = ". intval($order_id));			
 			break;
 		
 		// (bit-pay.com does not send expired notifications as of this release)
