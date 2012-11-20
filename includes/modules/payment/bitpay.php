@@ -47,7 +47,7 @@
 		// check zone
 		if ( ($this->enabled == true) && ((int)MODULE_PAYMENT_BITPAY_ZONE > 0) ) {
 			$check_flag = false;
-			$check = $db->Execute("select zone_id from " . TABLE_ZONES_TO_GEO_ZONES . " where geo_zone_id = '" . MODULE_PAYMENT_BITPAY_ZONE . "' and zone_country_id = '" . $order->billing['country']['id'] . "' order by zone_id");
+			$check = $db->Execute("select zone_id from " . TABLE_ZONES_TO_GEO_ZONES . " where geo_zone_id = '" . intval(MODULE_PAYMENT_BITPAY_ZONE) . "' and zone_country_id = '" . intval($order->billing['country']['id']) . "' order by zone_id");
 			while (!$check->EOF) {
 				if ($check->fields['zone_id'] < 1) {
 					$check_flag = true;
@@ -113,7 +113,7 @@
 		require_once 'bitpay/bp_lib.php';    			
 				
 		// change order status to value selected by merchant
-		$db->Execute("update ". TABLE_ORDERS. " set orders_status = " . MODULE_PAYMENT_BITPAY_UNPAID_STATUS_ID . " where orders_id = ". $insert_id);
+		$db->Execute("update ". TABLE_ORDERS. " set orders_status = " . intval(MODULE_PAYMENT_BITPAY_UNPAID_STATUS_ID) . " where orders_id = ". intval($insert_id));
 				
 		
 		$options = array(
@@ -177,7 +177,7 @@
 		."values ('Transaction speed', 'MODULE_PAYMENT_BITPAY_TRANSACTION_SPEED', 'low', 'At what speed do you want the transactions to be considered confirmed?', '6', '0', 'zen_cfg_select_option(array(\'high\', \'medium\', \'low\'),', now());");
 
 		$db->Execute("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, use_function, date_added) "
-		."values ('Unpaid Order Status', 'MODULE_PAYMENT_BITPAY_UNPAID_STATUS_ID', '" . DEFAULT_ORDERS_STATUS_ID .  "', 'Automatically set the status of unpaid orders to this value.', '6', '0', 'zen_cfg_pull_down_order_statuses(', 'zen_get_order_status_name', now())");
+		."values ('Unpaid Order Status', 'MODULE_PAYMENT_BITPAY_UNPAID_STATUS_ID', '" . intval(DEFAULT_ORDERS_STATUS_ID) .  "', 'Automatically set the status of unpaid orders to this value.', '6', '0', 'zen_cfg_pull_down_order_statuses(', 'zen_get_order_status_name', now())");
 
 		$db->Execute("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, use_function, date_added) "
 		."values ('Paid Order Status', 'MODULE_PAYMENT_BITPAY_PAID_STATUS_ID', '2', 'Automatically set the status of paid orders to this value.', '6', '0', 'zen_cfg_pull_down_order_statuses(', 'zen_get_order_status_name', now())");
