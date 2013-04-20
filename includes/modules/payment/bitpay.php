@@ -8,7 +8,6 @@
     var $code, $title, $description, $enabled, $payment;
 	
 	function log($contents){
-		return; // turn on to debug
 		$file = 'bitpay/log.txt';
 		file_put_contents($file, date('m-d H:i:s').": \n", FILE_APPEND);
 		if (is_array($contents))
@@ -126,12 +125,21 @@
 			'transactionSpeed' => MODULE_PAYMENT_BITPAY_TRANSACTION_SPEED,
 			'apiKey' => MODULE_PAYMENT_BITPAY_APIKEY,
 			);
-		$invoice = bpCreateInvoice($insert_id, $order->info['total'], $insert_id, $options);
+		$total = $order->info['total'];
+		if ($order->info['currency_value'] != 1) 
+		{
+			global $currencies;
+			$total *= $order->info['currency_value'];
+			if ($currencies->is_set($order->info['currency']))
+				$total = round($total, $currencies->get_decimal_places($order->info['currency']));
+		}
+		
+		$invoice = bpCreateInvoice($insert_id, $total, $insert_id, $options);
 		
 		$this->log("created invoice orderID=$insert_id with options: ".var_export($options, true));
 		$this->log("invoice: ".var_export($invoice, true));			
 			
-		if (!is_array($invoice) or array_key_exists('error', $invoice)) 
+		if (isset($invoice['error']))
 		{
 			$this->log('createInvoice error '.var_export($invoice['error'], true));
 			zen_remove_order($insert_id, $restock = true);

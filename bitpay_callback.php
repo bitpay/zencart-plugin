@@ -4,8 +4,7 @@ require 'includes/application_top.php';
 
 function bplog($contents)
 {
-	//off by default
-	//file_put_contents('bitpay/log.txt', $contents, FILE_APPEND);
+	file_put_contents('bitpay/log.txt', $contents, FILE_APPEND);
 }
 
 
