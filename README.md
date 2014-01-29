@@ -1,4 +1,5 @@
-©2012 BIT-PAY LLC.
+©2012,2013,2014 BITPAY, INC.
+
 Permission is hereby granted to any person obtaining a copy of this software
 and associated documentation for use and/or modification in association with
 the bit-pay.com service.
