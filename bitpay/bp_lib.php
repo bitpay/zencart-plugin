@@ -19,6 +19,7 @@ function bpCurl($url, $apiKey, $post = false) {
 		'Content-Type: application/json',
 		"Content-Length: $length",
 		"Authorization: Basic $uname",
+		'X-BitPay-Plugin-Info: zencart3',
 		);
 
 	curl_setopt($curl, CURLOPT_PORT, 443);
@@ -121,6 +122,5 @@ function bpGetInvoice($invoiceId, $apiKey=false) {
 	$response['posData'] = json_decode($response['posData'], true);
 	return $response;	
 }
-
 
 ?>
