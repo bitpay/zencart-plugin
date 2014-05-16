@@ -27,15 +27,7 @@ class bitpay {
   var $code, $title, $description, $enabled, $payment;
   
   function log($contents){
-    return; // turn on to debug
-    $file = 'bitpay/log.txt';
-    file_put_contents($file, date('m-d H:i:s').": \n", FILE_APPEND);
-
-    if (is_array($contents))
-      foreach($contents as $k => $v)
-        file_put_contents($file, $k.': '.$v."\n", FILE_APPEND);
-    else
-      file_put_contents($file, $contents."\n", FILE_APPEND);
+    error_log($contents);
   }
   
   // class constructor
@@ -149,9 +141,6 @@ class bitpay {
       );
 
     $invoice = bpCreateInvoice($insert_id, $order->info['total'], $insert_id, $options);
-    
-    $this->log("created invoice orderID=$insert_id with options: ".var_export($options, true));
-    $this->log("invoice: ".var_export($invoice, true));      
       
     if (!is_array($invoice) or array_key_exists('error', $invoice)) {
       $this->log('createInvoice error '.var_export($invoice['error'], true));
