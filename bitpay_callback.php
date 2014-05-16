@@ -23,8 +23,7 @@ require 'bitpay/bp_lib.php';
 require 'includes/application_top.php';
 
 function bplog($contents) {
-  //off by default
-  //file_put_contents('bitpay/log.txt', $contents, FILE_APPEND);
+  error_log($contents);
 }
 
 
@@ -33,7 +32,6 @@ $response = bpVerifyNotification(MODULE_PAYMENT_BITPAY_APIKEY);
 if (is_string($response))
   bplog(date('H:i')." bitpay callback error: $response\n");
 else {
-  bplog(date('H:i')." bitpay callback for invoice ".$response['id']." status: ".$response['status']);
   
   global $db;
   $order_id = $response['posData'];
