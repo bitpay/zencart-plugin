@@ -48,3 +48,6 @@ Version 2
 
 Version 3
 - Added new HTTP header for version tracking
+
+Version 4
+- Fix to use server error handling
