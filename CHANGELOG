@@ -1,0 +1,11 @@
+Version 4
+	* Fix to use server error handling
+
+Version 3
+	* Added new HTTP header for version tracking
+
+Version 2
+	* Updated to support API key instead of SSL files.  Tested against Zen Cart 1.5.1.
+
+Version 1
+	* Initial version, tested against Zen Cart 1.3.9h

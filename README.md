@@ -1,9 +1,11 @@
-Installation
-------------
+bitpay/zencart-plugin
+
+# Installation
+
 Copy these files into your Zen Cart directory.
 
-Configuration
--------------
+# Configuration
+
 1. Create an API key at bitpay.com under your My Account section.
 2. In Admin panel under "Modules > Payment > Bitcoins" click Install.
 3. Fill out all configuration information:<br />
@@ -14,27 +16,32 @@ d. Choose a status for unpaid and paid orders (or leave the default values as de
 e. Verify that the currencies displayed correspond to what you want and to those accepted by bitpay.com (the defaults are what bitpay accepts as of this writing).<br />
 f. Choose a sort order for displaying this payment option to visitors.  Lowest is displayed first.<br />
 
-Usage
------
-When a shopping chooses the Bitcoin payment method, they will be presented with an order summary as the next step (prices are shown in whatever currency they've selected for shopping).  Upon receiving their order, the system takes the shopper to a bitpay.com invoice where the user is presented with bitcoin payment instructions.  Once payment is received, a link is presented to the shopper that will take them back to your website.
+# Usage
+
+When a shopping chooses the Bitcoin payment method, they will be presented with an order summary as the next step (prices are shown in whatever currency they've selected for shopping). Upon receiving their order, the system takes the shopper to a bitpay.com invoice where the user is presented with bitcoin payment instructions.  Once payment is received, a link is presented to the shopper that will take them back to your website.
 
 In your Admin control panel, you can see the orders made with Bitcoins just as you would any other order.  The status you selected in the configuration steps above will indicate whether the order has been paid for.  
 
 Note: This extension does not provide a means of automatically pulling a current BTC exchange rate for presenting BTC prices to shoppers.
 
-Change Log
-----------
-Version 1
-- Initial version, tested against Zen Cart 1.3.9h
+# Support
 
-Version 2
-- Updated to support API key instead of SSL files.  Tested against Zen Cart 1.5.1.
+## BitPay Support
 
-Version 3
-- Added new HTTP header for version tracking
+* [GitHub Issues](https://github.com/bitpay/zencart-plugin/issues)
+  * Open an issue if you are having issues with this plugin.
+* [Support](https://support.bitpay.com)
+  * BitPay merchant support documentation
 
-Version 4
-- Fix to use server error handling
+## ZenCart Support
+
+* [Homepage](http://www.zen-cart.com)
+* [Documentation](http://www.zen-cart.com/wiki/index.php/Developers_API)
+* [Support Forums](http://www.zen-cart.com/forum.php)
+
+# Contribute
+
+To contribute to this project, please fork and submit a pull request.
 
 # License
 
