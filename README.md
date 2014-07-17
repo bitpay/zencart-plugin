@@ -1,4 +1,5 @@
 bitpay/zencart-plugin
+=====================
 
 # Installation
 
