@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
 /**
  * The MIT License (MIT)
  * 
@@ -22,5 +23,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-ob_start();
-header('Location: ' . $_SERVER['SERVER_NAME']);
+ -->
+<ruleset name="PHPMD Ruleset"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+    <description>
+        Custom phpmd ruleset to be used with BitPay projects.
+    </description>
+
+    <!-- Import -->
+    <!--<rule ref="rulesets/cleancode.xml" />-->
+    <rule ref="rulesets/codesize.xml" />
+    <!--<rule ref="rulesets/controversial.xml" />-->
+    <rule ref="rulesets/design.xml" />
+    <rule ref="rulesets/naming.xml" />
+    <rule ref="rulesets/unusedcode.xml" />
+</ruleset>
