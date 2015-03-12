@@ -1,8 +1,8 @@
 {
-    "name": "bitpay/zencart-plugin",
-    "description": "",
+    "name": "bitpay/zencart",
+    "description": "BitPay payment plugin for ZenCart",
     "type": "zencart-plugin",
-    "keywords": [],
+    "keywords": ["zencart","plugin","payment","ecommerce","bitcoin","bitpay"],
     "homepage": "https://github.com/bitpay/zencart-plugin",
     "license": "MIT",
     "support": {
@@ -11,7 +11,19 @@
         "source": "https://github.com/bitpay/zencart-plugin"
     },
     "minimum-stability": "stable",
-    "require": {},
+    "authors": [
+        {
+            "name": "BitPay Integrations Development Team",
+            "email": "integrations@bitpay.com",
+            "homepage": "https://bitpay.com/integrations"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "composer/installers": "~1.0"
+    },
     "require-dev": {
         "phpmd/phpmd": "*",
         "phpdocumentor/phpdocumentor": "*",
