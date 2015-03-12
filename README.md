@@ -2,6 +2,8 @@
 
 This is the BitPay payment plugin for ZenCart.
 
+[![Build Status](https://travis-ci.org/bitpay/zencart-plugin.svg?branch=master)](https://travis-ci.org/bitpay/zencart-plugin)
+
 ## Quick Start Guide
 
 To get up and running with our plugin quickly, see the GUIDE here: https://github.com/bitpay/zencart-plugin/blob/master/GUIDE.md
