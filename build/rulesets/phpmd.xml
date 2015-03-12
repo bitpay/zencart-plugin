@@ -3,7 +3,7 @@
 /**
  * The MIT License (MIT)
  * 
- * Copyright (c) 2011-2014 BitPay
+ * Copyright (c) 2011-2015 BitPay
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,9 +34,7 @@
     </description>
 
     <!-- Import -->
-    <!--<rule ref="rulesets/cleancode.xml" />-->
     <rule ref="rulesets/codesize.xml" />
-    <!--<rule ref="rulesets/controversial.xml" />-->
     <rule ref="rulesets/design.xml" />
     <rule ref="rulesets/naming.xml" />
     <rule ref="rulesets/unusedcode.xml" />
