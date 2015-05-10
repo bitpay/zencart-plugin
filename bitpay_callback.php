@@ -28,28 +28,32 @@ require 'bitpay/bp_lib.php';
 require 'includes/application_top.php';
 
 function bplog($contents) {
-  error_log($contents);
+    if (true === isset($contents)) {
+        if (true === is_resource($contents)) {
+            error_log(serialize($contents));
+        } else {
+            error_log(var_export($contents, true));
+        }
+    }
 }
-
 
 $response = bpVerifyNotification(MODULE_PAYMENT_BITPAY_APIKEY);
 
-if (is_string($response))
-  bplog(date('H:i')." bitpay callback error: $response\n");
-else {
-  
-  global $db;
-  $order_id = $response['posData'];
+if (true === is_string($response)) {
+    bplog(date('H:i') . " bitpay callback error: " . $response . "\n");
+} else {
+    global $db;
+    $order_id = $response['posData'];
 
-  switch($response['status']) {
-    case 'confirmed':    
-    case 'complete':
-      $db->Execute("update ". TABLE_ORDERS. " set orders_status = " . MODULE_PAYMENT_BITPAY_PAID_STATUS_ID . " where orders_id = ". intval($order_id));      
-      break;
-    case 'expired':
-      if(function_exists('zen_remove_order'))
-        zen_remove_order($order_id, $restock = true);
-      break;
-  }
+    switch ($response['status']) {
+        case 'confirmed':    
+        case 'complete':
+            $db->Execute("update ". TABLE_ORDERS. " set orders_status = " . MODULE_PAYMENT_BITPAY_PAID_STATUS_ID . " where orders_id = ". intval($order_id));      
+            break;
+        case 'expired':
+            if (true === function_exists('zen_remove_order')) {
+                zen_remove_order($order_id, $restock = true);
+            }
+            break;
+    }
 }
-?>
