@@ -18,6 +18,7 @@ To get up and running with our plugin quickly, see the GUIDE here: https://githu
 
 ### BitPay Support
 
+* Last Cart Version Tested: 1.5.1
 * [GitHub Issues](https://github.com/bitpay/zencart-plugin/issues)
   * Open an issue if you are having issues with this plugin.
 * [Support](https://support.bitpay.com)
