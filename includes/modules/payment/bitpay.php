@@ -128,6 +128,12 @@ class bitpay {
   // called upon clicking confirm (after before_process and after the order is created)
   function after_process() {
     global $insert_id, $order, $db;
+
+    //$insert_id must resemble an integer or else we can't match it into the db
+    if (!preg_match('/^\d+$/', $insert_id)) {
+        $this->log('after_process(). The $insert_id global is not set properly! Please ensure that: includes/modules/checkout_process.php properly sets $insert_id.');
+        throw new Exception('payment method failed');
+    }
     require_once 'bitpay/bp_lib.php';          
         
     // change order status to value selected by merchant
