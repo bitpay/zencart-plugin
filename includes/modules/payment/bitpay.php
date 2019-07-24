@@ -44,7 +44,7 @@ class bitpay {
     $this->sort_order = MODULE_PAYMENT_BITPAY_SORT_ORDER;
     $this->enabled = ((MODULE_PAYMENT_BITPAY_STATUS == 'True') ? true : false);
 
-    if ((int)MODULE_PAYMENT_BITPAY_ORDER_STATUS_ID > 0) {
+    if (defined(MODULE_PAYMENT_BITPAY_ORDER_STATUS_ID) && (int)MODULE_PAYMENT_BITPAY_ORDER_STATUS_ID > 0) {
       $this->order_status = MODULE_PAYMENT_BITPAY_ORDER_STATUS_ID;
       $payment='bitpay';
     } else if ($payment=='bitpay') {
