@@ -28,7 +28,9 @@ require_once 'bp_options.php';
 function bpIPN($url)
 {
     $ch = curl_init();
-    $request_headers = array();
+	$request_headers = array();
+	$pluginInfo = MODULE_PAYMENT_BITPAY_EXTENSION_VERSION;
+	$request_headers[] = 'X-BitPay-Plugin-Info: ' . $pluginInfo;
     $request_headers[] = 'Content-Type: application/json';
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
@@ -52,7 +54,9 @@ function bpCurl($url, $apiKey, $post = false)
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $length = strlen($post);
     }
-    $request_headers = array();
+	$request_headers = array();
+	$pluginInfo = MODULE_PAYMENT_BITPAY_EXTENSION_VERSION;
+	$request_headers[] = 'X-BitPay-Plugin-Info: ' . $pluginInfo;
     $request_headers[] = 'Content-Type: application/json';
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);

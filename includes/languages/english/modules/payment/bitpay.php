@@ -26,7 +26,8 @@
  
  
 //	Bitpay Payment Module - Lanugage File
-define('MODULE_PAYMENT_BITPAY_TEXT_TITLE', 'BitPay');
+define('MODULE_PAYMENT_BITPAY_TEXT_TITLE', 'BitPay Checkout');
+define('MODULE_PAYMENT_BITPAY_EXTENSION_VERSION', 'BitPay_Checkout_Zencart_2.0.0.1');
 define('MODULE_PAYMENT_BITPAY_TEXT_DESCRIPTION', 'Use BitPay.com\'s invoice processing server to automatically accept cryptocurrencies.');
 define('MODULE_PAYMENT_BITPAY_TEXT_EMAIL_FOOTER', 'Thank you for using BitPay');
 

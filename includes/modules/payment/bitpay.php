@@ -164,6 +164,7 @@ class bitpay
             'notificationURL' => zen_href_link('bitpay_callback.php', $parameters = '', $connection = 'NONSSL', $add_session_id = true, $search_engine_safe = true, $static = true),
             'redirectURL' => zen_href_link('account'),
             'transactionSpeed' => MODULE_PAYMENT_BITPAY_TRANSACTION_SPEED,
+            
         );
 
         #test or prod
@@ -213,13 +214,13 @@ class bitpay
         global $db, $messageStack;
 
         if (defined('MODULE_PAYMENT_BITPAY_STATUS')) {
-            $messageStack->add_session('BitPay module already installed.', 'error');
+            $messageStack->add_session('BitPay Checkout module already installed.', 'error');
             zen_redirect(zen_href_link(FILENAME_MODULES, 'set=payment&module=bitpay', 'NONSSL'));
             return 'failed';
         }
 
         $db->Execute("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) "
-            . "values ('Enable BitPay Module', 'MODULE_PAYMENT_BITPAY_STATUS', 'True', 'Do you want to accept cryptocurrency payments via BitPay.com?', '6', '0', 'zen_cfg_select_option(array(\'True\', \'False\'), ', now());");
+            . "values ('Enable BitPay Checkout Module', 'MODULE_PAYMENT_BITPAY_STATUS', 'True', 'Do you want to accept cryptocurrency payments via BitPay.com?', '6', '0', 'zen_cfg_select_option(array(\'True\', \'False\'), ', now());");
 
         //Sandbox or Production
 
@@ -262,6 +263,7 @@ class bitpay
     public function keys()
     {
         return array(
+            'MODULE_PAYMENT_BITPAY_EXTENSION_VERSION',
             'MODULE_PAYMENT_BITPAY_STATUS',
             'MODULE_PAYMENT_BITPAY_STATUS_ENV',
             'MODULE_PAYMENT_BITPAY_APIKEY',
