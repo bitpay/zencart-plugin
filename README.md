@@ -14,6 +14,10 @@ This is the BitPay payment plugin for ZenCart.
 
 To get up and running with our plugin quickly, see the GUIDE here: https://github.com/bitpay/zencart-plugin/blob/master/GUIDE.md
 
+## Note
+***This version has been archived.  Please migrate to our new v2 for access to new features***
+
+
 ## Support
 
 ### BitPay Support
