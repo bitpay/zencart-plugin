@@ -26,3 +26,6 @@
 /vendor/
 composer.lock
 composer.phar
+includes/modules/.DS_Store
+.DS_Store
+includes/.DS_Store

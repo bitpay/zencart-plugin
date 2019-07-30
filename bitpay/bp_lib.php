@@ -27,42 +27,34 @@ require_once 'bp_options.php';
 
 function bpCurl($url, $apiKey, $post = false) {
 	global $bpOptions;
-
-	$curl = curl_init($url);
+	
+	#print_r($post);die();
+	$ch = curl_init();
 	$length = 0;
 	if ($post)
 	{
-		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $post);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 		$length = strlen($post);
 	}
+	$request_headers = array();
+	$request_headers[] = 'Content-Type: application/json';
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	
 
-	$uname = base64_encode($apiKey);
-	$header = array(
-		'Content-Type: application/json',
-		"Content-Length: $length",
-		"Authorization: Basic $uname",
-		'X-BitPay-Plugin-Info: zencart3',
-		);
-
-	curl_setopt($curl, CURLOPT_PORT, 443);
-	curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
-	curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-	curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC ) ;
-	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1); // verify certificate
-	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2); // check existence of CN and verify that it matches hostname
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
-	curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
-
-	$responseString = curl_exec($curl);
+	$responseString = curl_exec($ch);
+	
 
 	if($responseString == false) {
-		$response = curl_error($curl);
+	
+		$response = curl_error($ch);
 	} else {
+	
 		$response = json_decode($responseString, true);
 	}
-	curl_close($curl);
+	curl_close($ch);
 	return $response;
 }
 // $orderId: Used to display an orderID to the buyer. In the account summary view, this value is used to
@@ -93,16 +85,32 @@ function bpCreateInvoice($orderId, $price, $posData, $options = array()) {
 
 	$options['orderID'] = $orderId;
 	$options['price'] = $price;
+	if($options['env'] == 'Test'){
+		#sandbox token
+		$options['token'] = MODULE_PAYMENT_BITPAY_APIKEY_DEV;
+	}else{
+		#production token
+		$options['token'] = MODULE_PAYMENT_BITPAY_APIKEY;
+	}
+	
+
 
 	$postOptions = array('orderID', 'itemDesc', 'itemCode', 'notificationEmail', 'notificationURL', 'redirectURL',
-		'posData', 'price', 'currency', 'physical', 'fullNotifications', 'transactionSpeed', 'buyerName',
+		'posData', 'price', 'currency', 'physical', 'fullNotifications', 'token','transactionSpeed', 'buyerName',
 		'buyerAddress1', 'buyerAddress2', 'buyerCity', 'buyerState', 'buyerZip', 'buyerEmail', 'buyerPhone');
 	foreach($postOptions as $o)
 		if (array_key_exists($o, $options))
 			$post[$o] = $options[$o];
 	$post = json_encode($post);
 
-	$response = bpCurl('https://bitpay.com/api/invoice/', $options['apiKey'], $post);
+	
+	if($options['env'] == 'Test'){
+		$response = bpCurl('https://test.bitpay.com/invoices/', $options['apiKey'], $post);
+	}else{
+		$response = bpCurl('https://bitpay.com/invoices/', $options['apiKey'], $post);
+	}
+
+	
 
 	return $response;
 }
