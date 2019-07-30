@@ -27,7 +27,8 @@
 require 'bitpay/bp_lib.php';
 require 'includes/application_top.php';
 
-function bplog($contents) {
+function bplog($contents)
+{
     if (true === isset($contents)) {
         if (true === is_resource($contents)) {
             error_log(serialize($contents));
@@ -37,7 +38,8 @@ function bplog($contents) {
     }
 }
 
-function validateResponse($response, $keys) {
+function validateResponse($response, $keys)
+{
     if (is_array($response) &&
         array_key_exists($keys[0], $response) &&
         array_key_exists($keys[0], $response[$keys[0]]) &&
@@ -48,26 +50,24 @@ function validateResponse($response, $keys) {
     return false;
 }
 
-if(MODULE_PAYMENT_BITPAY_STATUS_ENV == 'True'){
-    $response = bpVerifyNotification(MODULE_PAYMENT_BITPAY_APIKEY,'Prod');
-}
-else{
-    $response = bpVerifyNotification(MODULE_PAYMENT_BITPAY_APIKEY_DEV,'Test');
+if (MODULE_PAYMENT_BITPAY_STATUS_ENV == 'True') {
+    $response = bpVerifyNotification(MODULE_PAYMENT_BITPAY_APIKEY, 'Prod');
+} else {
+    $response = bpVerifyNotification(MODULE_PAYMENT_BITPAY_APIKEY_DEV, 'Test');
 }
 
-    global $db;
-    $status = $response['data']['status'];
-    $order_id = $response['data']['orderId'];
-   
-    switch ($status) {
-        case 'confirmed':
-        case 'complete':
-       
-            $db->Execute("update ". TABLE_ORDERS. " set orders_status = " . MODULE_PAYMENT_BITPAY_PAID_STATUS_ID . " where orders_id = ". intval($order_id));
-            break;
-        case 'expired':
-            if (true === function_exists('zen_remove_order')) {
-                zen_remove_order($order_id, $restock = true);
-            }
-            break;
-    }
+global $db;
+$status = $response['data']['status'];
+$order_id = $response['data']['orderId'];
+switch ($status) {
+    case 'confirmed':
+    case 'complete':
+
+        $db->Execute("update " . TABLE_ORDERS . " set orders_status = " . MODULE_PAYMENT_BITPAY_PAID_STATUS_ID . " where orders_id = " . intval($order_id));
+        break;
+    case 'expired':
+        if (true === function_exists('zen_remove_order')) {
+            zen_remove_order($order_id, $restock = true);
+        }
+        break;
+}

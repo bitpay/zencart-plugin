@@ -175,12 +175,11 @@ class bitpay
             $options['apiKey'] = MODULE_PAYMENT_BITPAY_APIKEY_DEV;
             $options['env'] = 'Test';
         }
-      
 
         $invoice = bpCreateInvoice($insert_id, $order->info['total'], $insert_id, $options);
-      
+
         if (!is_array($invoice) or array_key_exists('error', $invoice)) {
-         
+
             $this->log('createInvoice error ' . var_export($invoice['error'], true));
             zen_remove_order($insert_id, $restock = true);
             // unfortunately, there's not a good way of telling the customer that it's hosed.  Their cart is still full so they can try again w/ a different payment option.

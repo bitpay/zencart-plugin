@@ -25,17 +25,18 @@
 
 require_once 'bp_options.php';
 
-function bpIPN($url){
-	$ch = curl_init();
-	$request_headers = array();
+function bpIPN($url)
+{
+    $ch = curl_init();
+    $request_headers = array();
     $request_headers[] = 'Content-Type: application/json';
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-	$responseString = curl_exec($ch);
-	$response = json_decode($responseString, true);
-	curl_close($ch);
+    $responseString = curl_exec($ch);
+    $response = json_decode($responseString, true);
+    curl_close($ch);
     return $response;
 
 }
@@ -50,7 +51,7 @@ function bpCurl($url, $apiKey, $post = false)
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $length = strlen($post);
-	}
+    }
     $request_headers = array();
     $request_headers[] = 'Content-Type: application/json';
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -145,11 +146,12 @@ function bpVerifyNotification($apiKey = false, $env = null)
 // $options can include ('apiKey')
 function bpGetInvoice($invoiceId, $env)
 {
-   if($env == 'Test'){
-	$response = bpIPN('https://test.bitpay.com/invoices/' . $invoiceId);
-   }else{
-	$response = bpIPN('https://bitpay.com/invoices/' . $invoiceId);
-   }
-  
-   return $response;
+
+    if ($env == 'Test') {
+        $response = bpIPN('https://test.bitpay.com/invoices/' . $invoiceId);
+    } else {
+        $response = bpIPN('https://bitpay.com/invoices/' . $invoiceId);
+    }
+
+    return $response;
 }
