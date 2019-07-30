@@ -1,5 +1,11 @@
 # Notice
 
+-----
+
+##### If you have installed this plugin after 7/30/19, please recreate your API token
+
+-----
+
 This is a Community-supported project.
 
 If you are interested in becoming a maintainer of this project, please contact us at integrations@bitpay.com. Developers at BitPay will attempt to work along the new maintainers to ensure the project remains viable for the foreseeable future.
