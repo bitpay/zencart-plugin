@@ -44,7 +44,7 @@ $bpOptions['currency'] = '';
 
 $bpOptions['physical'] = 'true';
 
-$bpOptions['fullNotifications'] = 'true';
+$bpOptions['extendedNotifications'] = 'true';
 
 $bpOptions['transactionSpeed'] = 'low'; 
 

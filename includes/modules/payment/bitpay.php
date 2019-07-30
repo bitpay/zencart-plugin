@@ -160,7 +160,7 @@ class bitpay
             'physical' => $order->content_type == 'physical' ? 'true' : 'false',
             'currency' => $order->info['currency'],
             'buyerName' => $order->customer['firstname'] . ' ' . $order->customer['lastname'],
-            'fullNotifications' => 'true',
+            'extendedNotifications' => 'true',
             'notificationURL' => zen_href_link('bitpay_callback.php', $parameters = '', $connection = 'NONSSL', $add_session_id = true, $search_engine_safe = true, $static = true),
             'redirectURL' => zen_href_link('account'),
             'transactionSpeed' => MODULE_PAYMENT_BITPAY_TRANSACTION_SPEED,

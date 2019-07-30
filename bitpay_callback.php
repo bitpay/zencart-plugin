@@ -48,18 +48,21 @@ function validateResponse($response, $keys) {
     return false;
 }
 
-$response = bpVerifyNotification(MODULE_PAYMENT_BITPAY_APIKEY);
-$keys = array('posData', 'status');
+if(MODULE_PAYMENT_BITPAY_STATUS_ENV == 'True'){
+    $response = bpVerifyNotification(MODULE_PAYMENT_BITPAY_APIKEY,'Prod');
+}
+else{
+    $response = bpVerifyNotification(MODULE_PAYMENT_BITPAY_APIKEY_DEV,'Test');
+}
 
-if (!validateResponse($response, $keys)) {
-    bplog(date('H:i') . " bitpay callback error: " . $response . "\n");
-} else {
     global $db;
-    $order_id = $response[$keys[0]][$keys[0]];
-    $status = $response[$keys[1]];
+    $status = $response['data']['status'];
+    $order_id = $response['data']['orderId'];
+   
     switch ($status) {
         case 'confirmed':
         case 'complete':
+       
             $db->Execute("update ". TABLE_ORDERS. " set orders_status = " . MODULE_PAYMENT_BITPAY_PAID_STATUS_ID . " where orders_id = ". intval($order_id));
             break;
         case 'expired':
@@ -68,4 +71,3 @@ if (!validateResponse($response, $keys)) {
             }
             break;
     }
-}

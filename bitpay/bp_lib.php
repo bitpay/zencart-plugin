@@ -25,37 +25,49 @@
 
 require_once 'bp_options.php';
 
-function bpCurl($url, $apiKey, $post = false) {
-	global $bpOptions;
-	
-	#print_r($post);die();
+function bpIPN($url){
 	$ch = curl_init();
-	$length = 0;
-	if ($post)
-	{
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-		$length = strlen($post);
-	}
 	$request_headers = array();
-	$request_headers[] = 'Content-Type: application/json';
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	
+    $request_headers[] = 'Content-Type: application/json';
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 	$responseString = curl_exec($ch);
-	
-
-	if($responseString == false) {
-	
-		$response = curl_error($ch);
-	} else {
-	
-		$response = json_decode($responseString, true);
-	}
+	$response = json_decode($responseString, true);
 	curl_close($ch);
-	return $response;
+    return $response;
+
+}
+
+function bpCurl($url, $apiKey, $post = false)
+{
+    global $bpOptions;
+
+    $ch = curl_init();
+    $length = 0;
+    if ($post) {
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $length = strlen($post);
+	}
+    $request_headers = array();
+    $request_headers[] = 'Content-Type: application/json';
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $responseString = curl_exec($ch);
+
+    if ($responseString == false) {
+
+        $response = curl_error($ch);
+    } else {
+
+        $response = json_decode($responseString, true);
+    }
+    curl_close($ch);
+    return $response;
 }
 // $orderId: Used to display an orderID to the buyer. In the account summary view, this value is used to
 // identify a ledger entry if present.
@@ -69,94 +81,75 @@ function bpCurl($url, $apiKey, $post = false) {
 //
 // $options keys can include any of:
 // ('itemDesc', 'itemCode', 'notificationEmail', 'notificationURL', 'redirectURL', 'apiKey'
-//		'currency', 'physical', 'fullNotifications', 'transactionSpeed', 'buyerName',
-//		'buyerAddress1', 'buyerAddress2', 'buyerCity', 'buyerState', 'buyerZip', 'buyerEmail', 'buyerPhone')
+//        'currency', 'physical', 'extendedNotifications', 'transactionSpeed', 'buyerName',
+//        'buyerAddress1', 'buyerAddress2', 'buyerCity', 'buyerState', 'buyerZip', 'buyerEmail', 'buyerPhone')
 // If a given option is not provided here, the value of that option will default to what is found in bp_options.php
 // (see api documentation for information on these options).
-function bpCreateInvoice($orderId, $price, $posData, $options = array()) {
-	global $bpOptions;
+function bpCreateInvoice($orderId, $price, $posData, $options = array())
+{
+    global $bpOptions;
 
-	$options = array_merge($bpOptions, $options);	// $options override any options found in bp_options.php
+    $options = array_merge($bpOptions, $options); // $options override any options found in bp_options.php
 
-	$options['posData'] = '{"posData": "' . $posData . '"';
-	if ($bpOptions['verifyPos']) // if desired, a hash of the POS data is included to verify source in the callback
-		$options['posData'].= ', "hash": "' . crypt($posData, $options['apiKey']).'"';
-	$options['posData'].= '}';
+    $options['posData'] = '{"posData": "' . $posData . '"';
+    if ($bpOptions['verifyPos']) // if desired, a hash of the POS data is included to verify source in the callback
+    {
+        $options['posData'] .= ', "hash": "' . crypt($posData, $options['apiKey']) . '"';
+    }
 
-	$options['orderID'] = $orderId;
-	$options['price'] = $price;
-	if($options['env'] == 'Test'){
-		#sandbox token
-		$options['token'] = MODULE_PAYMENT_BITPAY_APIKEY_DEV;
-	}else{
-		#production token
-		$options['token'] = MODULE_PAYMENT_BITPAY_APIKEY;
-	}
-	
+    $options['posData'] .= '}';
 
+    $options['orderID'] = $orderId;
+    $options['price'] = $price;
+    if ($options['env'] == 'Test') {
+        #sandbox token
+        $options['token'] = MODULE_PAYMENT_BITPAY_APIKEY_DEV;
+    } else {
+        #production token
+        $options['token'] = MODULE_PAYMENT_BITPAY_APIKEY;
+    }
 
-	$postOptions = array('orderID', 'itemDesc', 'itemCode', 'notificationEmail', 'notificationURL', 'redirectURL',
-		'posData', 'price', 'currency', 'physical', 'fullNotifications', 'token','transactionSpeed', 'buyerName',
-		'buyerAddress1', 'buyerAddress2', 'buyerCity', 'buyerState', 'buyerZip', 'buyerEmail', 'buyerPhone');
-	foreach($postOptions as $o)
-		if (array_key_exists($o, $options))
-			$post[$o] = $options[$o];
-	$post = json_encode($post);
+    $postOptions = array('orderID', 'itemDesc', 'itemCode', 'notificationEmail', 'notificationURL', 'redirectURL',
+        'posData', 'price', 'currency', 'physical', 'extendedNotifications', 'token', 'transactionSpeed', 'buyerName',
+        'buyerAddress1', 'buyerAddress2', 'buyerCity', 'buyerState', 'buyerZip', 'buyerEmail', 'buyerPhone');
+    foreach ($postOptions as $o) {
+        if (array_key_exists($o, $options)) {
+            $post[$o] = $options[$o];
+        }
+    }
 
-	
-	if($options['env'] == 'Test'){
-		$response = bpCurl('https://test.bitpay.com/invoices/', $options['apiKey'], $post);
-	}else{
-		$response = bpCurl('https://bitpay.com/invoices/', $options['apiKey'], $post);
-	}
+    $post = json_encode($post);
 
-	
+    if ($options['env'] == 'Test') {
+        $response = bpCurl('https://test.bitpay.com/invoices/', $options['apiKey'], $post);
+    } else {
+        $response = bpCurl('https://bitpay.com/invoices/', $options['apiKey'], $post);
+    }
 
-	return $response;
+    return $response;
 }
 
 // Call from your notification handler to convert $_POST data to an object containing invoice data
-function bpVerifyNotification($apiKey = false) {
-	global $bpOptions;
-	if (!$apiKey)
-		$apiKey = $bpOptions['apiKey'];
+function bpVerifyNotification($apiKey = false, $env = null)
+{
+    global $bpOptions;
 
-	$post = file_get_contents("php://input");
-	if (!$post)
-		return 'No post data';
+    $all_data = json_decode(file_get_contents("php://input"), true);
 
-	$json = json_decode($post, true);
+    $data = $all_data['data'];
+    $event = $all_data['event'];
 
-	if (is_string($json))
-		return $json; // error
-
-	if (!array_key_exists('posData', $json))
-		return 'no posData';
-
-	$posData = json_decode($json['posData'], true);
-	if($bpOptions['verifyPos'] and $posData['hash'] != crypt($posData['posData'], $apiKey))
-		return 'authentication failed (bad hash)';
-	$json['posData'] = $posData['posData'];
-
-	if (!array_key_exists('id', $json))
-        {
-            return 'Cannot find invoice ID';
-        }
-
-        return bpGetInvoice($json['id'], $apiKey);
+    return bpGetInvoice($data['id'], $env);
 }
 
 // $options can include ('apiKey')
-function bpGetInvoice($invoiceId, $apiKey=false) {
-	global $bpOptions;
-	if (!$apiKey)
-		$apiKey = $bpOptions['apiKey'];
-
-	$response = bpCurl('https://bitpay.com/api/invoice/'.$invoiceId, $apiKey);
-	if (is_string($response))
-		return $response; // error
-	$response['posData'] = json_decode($response['posData'], true);
-	return $response;
+function bpGetInvoice($invoiceId, $env)
+{
+   if($env == 'Test'){
+	$response = bpIPN('https://test.bitpay.com/invoices/' . $invoiceId);
+   }else{
+	$response = bpIPN('https://bitpay.com/invoices/' . $invoiceId);
+   }
+  
+   return $response;
 }
-
-?>
