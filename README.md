@@ -2,7 +2,7 @@
 
 -----
 
-##### If you have installed this plugin after 7/30/19, please recreate your API token
+##### If you have installed this plugin after 7/30/19 from GitHub, please recreate your API token
 
 -----
 
