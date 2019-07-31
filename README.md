@@ -16,9 +16,27 @@ This is the BitPay payment plugin for ZenCart.
 
 [![Build Status](https://travis-ci.org/bitpay/zencart-plugin.svg?branch=master)](https://travis-ci.org/bitpay/zencart-plugin)
 
-## Quick Start Guide
+# Requirements
 
-To get up and running with our plugin quickly, see the GUIDE here: https://github.com/bitpay/zencart-plugin/blob/master/GUIDE.md
+This plugin requires the following:
+
+* [Zen Cart](https://www.zen-cart.com/).
+* A BitPay merchant account ([Test](http://test.bitpay.com) and [Production](http://www.bitpay.com))
+
+# Installation
+
+After the plugin is installed on your Zen Cart installation, set the following options
+
+* **Enable BitPay Checkout Module**
+	* Set to **TRUE** to enable  the checkout method
+* **Production Environment**
+	* By default this is set to **FALSE** and will use the *Sandbox* environment, [test.bitpay.com](test.bitpay.com).  Set to **TRUE** and configure your account at [bitpay.com](bitpay.com)
+* **Production API Key**
+	* Your *production* API key, used for real transactions
+* **Sandbox API Key**
+	* Your *sandbox* API key, used for testing the installation
+* **Transaction speed**
+	* This determines at what point orders are considered *paid*.  **Medium** is the default for most users
 
 ## Support
 
