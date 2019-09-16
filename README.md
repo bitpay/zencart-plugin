@@ -42,7 +42,7 @@ After the plugin is installed on your Zen Cart installation, set the following o
 
 ### BitPay Support
 
-* Last Cart Version Tested: 1.5.1
+* Last Cart Version Tested: 1.5.6c
 * [GitHub Issues](https://github.com/bitpay/zencart-plugin/issues)
   * Open an issue if you are having issues with this plugin.
 * [Support](https://help.bitpay.com)
